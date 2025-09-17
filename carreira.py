@@ -380,7 +380,7 @@ def course_registration_page():
             st.subheader(f"Cursos Recomendados para {user.target_level} ({len(recommended_courses)})")
             
             for course_data in recommended_courses:
-                display_course_card(course_data, user, db)
+                display_course_card(course_data, user, db, context="recommended")
         else:
             st.info("Não há cursos recomendados com base nas suas lacunas atuais.")
     
@@ -397,7 +397,7 @@ def course_registration_page():
             page_courses = filtered_courses[start_idx:end_idx]
             
             for course_data in page_courses:
-                display_course_card(course_data, user, db)
+                display_course_card(course_data, user, db, context="all")
             
             # Pagination info
             st.caption(f"Mostrando {start_idx + 1}-{min(end_idx, len(filtered_courses))} de {len(filtered_courses)} cursos")
@@ -509,9 +509,8 @@ def display_course_card(course_data, user, db, context="all"):
        
         # Registration form
         if not already_intended:
-            # Create unique key for this form instance
-            st.session_state.form_counter += 1
-            form_key = f"course_form_{course.id}_{st.session_state.form_counter}"
+            # Create unique key for this form instance with context
+            form_key = f"course_form_{context}_{course.id}_{datetime.now().timestamp()}"
             with st.form(form_key):
                 col1, col2 = st.columns([2, 1])
                
@@ -520,12 +519,12 @@ def display_course_card(course_data, user, db, context="all"):
                         "Prioridade",
                         [1, 2, 3, 4, 5],
                         index=2,
-                        key=f"priority_{course.id}_{st.session_state.form_counter}"
+                        key=f"priority_{context}_{course.id}_{datetime.now().timestamp()}"
                     )
                     notes = st.text_area(
                         "Notas (opcional)",
                         placeholder="Por que você está interessado neste curso?",
-                        key=f"notes_{course.id}_{st.session_state.form_counter}"
+                        key=f"notes_{context}_{course.id}_{datetime.now().timestamp()}"
                     )
                
                 with col2:
@@ -533,7 +532,7 @@ def display_course_card(course_data, user, db, context="all"):
                     timeline = st.selectbox(
                         "Timeline",
                         ["Imediato", "Próximos 3 meses", "Próximos 6 meses", "Este ano"],
-                        key=f"timeline_{course.id}_{st.session_state.form_counter}"
+                        key=f"timeline_{context}_{course.id}_{datetime.now().timestamp()}"
                     )
                    
                     if st.form_submit_button("Registrar Interesse"):
