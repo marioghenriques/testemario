@@ -460,7 +460,7 @@ def course_registration_page():
             if st.button("🔄 Sincronizar com Sistema"):
                 sync_with_external_system(current_intentions)
 
-def display_course_card(course_data, user, db):
+def display_course_card(course_data, user, db, context="all"):
     """Display individual course card with enhanced information"""
     course = course_data['course']
     relevance = course_data['relevance']
@@ -505,7 +505,7 @@ def display_course_card(course_data, user, db):
                 ])
                 fig.update_layout(height=200, showlegend=False)
                 # Linha 508 corrigida
-                st.plotly_chart(fig, use_container_width=True, key=f"plotly_chart_{course_data['course'].id}")
+                st.plotly_chart(fig, use_container_width=True, key=f"plotly_chart_{context}_{course_data['course'].id}")
        
         # Registration form
         if not already_intended:
