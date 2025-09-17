@@ -505,7 +505,8 @@ def display_course_card(course_data, user, db):
                 ])
                 fig.update_layout(height=200, showlegend=False)
                 # Linha 507 corrigida
-                st.plotly_chart(fig, use_container_width=True, key=f"plotly_chart_{course_data['id']}")
+                # Linha 508 corrigida
+                st.plotly_chart(fig, use_container_width=True, key=f"plotly_chart_{course_data['course'].id}")
         
         # Registration form
         if not already_intended:
