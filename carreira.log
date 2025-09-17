@@ -1,0 +1,211 @@
+2025-09-17 10:38:47,986 - __main__ - ERROR - ❌ Erro fatal: cannot import name 'auth_bp' from partially initialized module 'backend.routes' (most likely due to a circular import) (/Users/marioghenriques/bmad/carreira/backend/routes/__init__.py)
+2025-09-17 10:42:00,286 - __main__ - ERROR - ❌ Erro fatal: No module named 'backend.utils.auth'
+2025-09-17 10:47:40,665 - __main__ - INFO - 🚀 Sistema de Carreira inicializado
+2025-09-17 10:47:40,666 - __main__ - INFO - 🌐 Iniciando servidor de desenvolvimento...
+2025-09-17 10:47:40,675 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("users")
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - PRAGMA temp.table_info("users")
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("competencies")
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - PRAGMA temp.table_info("competencies")
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("assessments")
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - PRAGMA temp.table_info("assessments")
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("assessment_items")
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - PRAGMA temp.table_info("assessment_items")
+2025-09-17 10:47:40,676 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("courses")
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - PRAGMA temp.table_info("courses")
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("course_competencies")
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - PRAGMA temp.table_info("course_competencies")
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("intentions")
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - PRAGMA temp.table_info("intentions")
+2025-09-17 10:47:40,677 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:47:40,678 - sqlalchemy.engine.Engine - INFO - 
+CREATE TABLE users (
+	id INTEGER NOT NULL, 
+	username VARCHAR(80) NOT NULL, 
+	email VARCHAR(120) NOT NULL, 
+	password_hash VARCHAR(255) NOT NULL, 
+	full_name VARCHAR(120) NOT NULL, 
+	position VARCHAR(100) NOT NULL, 
+	department VARCHAR(100), 
+	current_level VARCHAR(11) NOT NULL, 
+	target_level VARCHAR(11), 
+	role VARCHAR(5) NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	created_at DATETIME, 
+	updated_at DATETIME, 
+	PRIMARY KEY (id), 
+	UNIQUE (username), 
+	UNIQUE (email)
+)
+
+
+2025-09-17 10:47:40,678 - sqlalchemy.engine.Engine - INFO - [no key 0.00006s] ()
+2025-09-17 10:47:40,678 - sqlalchemy.engine.Engine - INFO - 
+CREATE TABLE competencies (
+	id INTEGER NOT NULL, 
+	name VARCHAR(200) NOT NULL, 
+	description TEXT, 
+	level VARCHAR(11) NOT NULL, 
+	category VARCHAR(10) NOT NULL, 
+	priority INTEGER NOT NULL, 
+	weight FLOAT NOT NULL, 
+	is_active BOOLEAN NOT NULL, 
+	created_at DATETIME, 
+	updated_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-09-17 10:47:40,678 - sqlalchemy.engine.Engine - INFO - [no key 0.00006s] ()
+2025-09-17 10:47:40,679 - sqlalchemy.engine.Engine - INFO - 
+CREATE TABLE courses (
+	id INTEGER NOT NULL, 
+	title VARCHAR(200) NOT NULL, 
+	description TEXT, 
+	duration INTEGER, 
+	modality VARCHAR(50), 
+	provider VARCHAR(100), 
+	is_active BOOLEAN NOT NULL, 
+	created_at DATETIME, 
+	updated_at DATETIME, 
+	PRIMARY KEY (id)
+)
+
+
+2025-09-17 10:47:40,679 - sqlalchemy.engine.Engine - INFO - [no key 0.00005s] ()
+2025-09-17 10:47:40,679 - sqlalchemy.engine.Engine - INFO - 
+CREATE TABLE assessments (
+	id INTEGER NOT NULL, 
+	user_id INTEGER NOT NULL, 
+	status VARCHAR(20) NOT NULL, 
+	completion_percentage FLOAT NOT NULL, 
+	started_at DATETIME, 
+	completed_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES users (id)
+)
+
+
+2025-09-17 10:47:40,679 - sqlalchemy.engine.Engine - INFO - [no key 0.00004s] ()
+2025-09-17 10:47:40,680 - sqlalchemy.engine.Engine - INFO - 
+CREATE TABLE course_competencies (
+	id INTEGER NOT NULL, 
+	course_id INTEGER NOT NULL, 
+	competency_id INTEGER NOT NULL, 
+	relevance_level INTEGER NOT NULL, 
+	is_primary BOOLEAN NOT NULL, 
+	created_at DATETIME, 
+	PRIMARY KEY (id), 
+	CONSTRAINT unique_course_competency UNIQUE (course_id, competency_id), 
+	FOREIGN KEY(course_id) REFERENCES courses (id), 
+	FOREIGN KEY(competency_id) REFERENCES competencies (id)
+)
+
+
+2025-09-17 10:47:40,680 - sqlalchemy.engine.Engine - INFO - [no key 0.00004s] ()
+2025-09-17 10:47:40,680 - sqlalchemy.engine.Engine - INFO - 
+CREATE TABLE intentions (
+	id INTEGER NOT NULL, 
+	user_id INTEGER NOT NULL, 
+	course_id INTEGER NOT NULL, 
+	status VARCHAR(9) NOT NULL, 
+	registered_at DATETIME, 
+	confirmed_at DATETIME, 
+	completed_at DATETIME, 
+	notes TEXT, 
+	created_at DATETIME, 
+	updated_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(user_id) REFERENCES users (id), 
+	FOREIGN KEY(course_id) REFERENCES courses (id)
+)
+
+
+2025-09-17 10:47:40,680 - sqlalchemy.engine.Engine - INFO - [no key 0.00004s] ()
+2025-09-17 10:47:40,681 - sqlalchemy.engine.Engine - INFO - 
+CREATE TABLE assessment_items (
+	id INTEGER NOT NULL, 
+	assessment_id INTEGER NOT NULL, 
+	competency_id INTEGER NOT NULL, 
+	score INTEGER, 
+	self_assessment_notes TEXT, 
+	is_answered BOOLEAN NOT NULL, 
+	answered_at DATETIME, 
+	created_at DATETIME, 
+	updated_at DATETIME, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(assessment_id) REFERENCES assessments (id), 
+	FOREIGN KEY(competency_id) REFERENCES competencies (id)
+)
+
+
+2025-09-17 10:47:40,681 - sqlalchemy.engine.Engine - INFO - [no key 0.00004s] ()
+2025-09-17 10:47:40,681 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-09-17 10:47:40,681 - __main__ - INFO - ✅ Banco de dados inicializado
+2025-09-17 10:47:40,681 - __main__ - INFO - ✅ Serviços inicializados com sucesso
+2025-09-17 10:47:40,681 - __main__ - INFO - 🔧 Configurando dados iniciais...
+2025-09-17 10:47:40,682 - __main__ - ERROR - ❌ Erro ao configurar dados iniciais: No module named 'database.seeds.competency_seeds'
+2025-09-17 10:47:40,682 - __main__ - ERROR - ❌ Erro ao iniciar servidor: No module named 'database.seeds.competency_seeds'
+2025-09-17 10:50:20,974 - __main__ - INFO - 🚀 Sistema de Carreira inicializado
+2025-09-17 10:50:20,975 - __main__ - INFO - 🌐 Iniciando servidor de desenvolvimento...
+2025-09-17 10:50:20,984 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-09-17 10:50:20,984 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("users")
+2025-09-17 10:50:20,984 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:20,984 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("competencies")
+2025-09-17 10:50:20,984 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("assessments")
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("assessment_items")
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("courses")
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("course_competencies")
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("intentions")
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:20,985 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-09-17 10:50:20,985 - __main__ - INFO - ✅ Banco de dados inicializado
+2025-09-17 10:50:20,985 - __main__ - INFO - ✅ Serviços inicializados com sucesso
+2025-09-17 10:50:20,985 - __main__ - INFO - 🔧 Configurando dados iniciais...
+2025-09-17 10:50:20,985 - __main__ - INFO - ✅ Dados iniciais configurados com sucesso
+2025-09-17 10:50:20,995 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-09-17 10:50:20,995 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-17 10:50:20,995 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 10:50:21,274 - __main__ - INFO - 🚀 Sistema de Carreira inicializado
+2025-09-17 10:50:21,274 - __main__ - INFO - 🌐 Iniciando servidor de desenvolvimento...
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("users")
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("competencies")
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("assessments")
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("assessment_items")
+2025-09-17 10:50:21,284 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:21,285 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("courses")
+2025-09-17 10:50:21,285 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:21,285 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("course_competencies")
+2025-09-17 10:50:21,285 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:21,285 - sqlalchemy.engine.Engine - INFO - PRAGMA main.table_info("intentions")
+2025-09-17 10:50:21,285 - sqlalchemy.engine.Engine - INFO - [raw sql] ()
+2025-09-17 10:50:21,285 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-09-17 10:50:21,285 - __main__ - INFO - ✅ Banco de dados inicializado
+2025-09-17 10:50:21,285 - __main__ - INFO - ✅ Serviços inicializados com sucesso
+2025-09-17 10:50:21,285 - __main__ - INFO - 🔧 Configurando dados iniciais...
+2025-09-17 10:50:21,285 - __main__ - INFO - ✅ Dados iniciais configurados com sucesso
+2025-09-17 10:50:21,289 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 10:50:21,296 - werkzeug - INFO -  * Debugger PIN: 113-546-038
