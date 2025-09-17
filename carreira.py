@@ -465,15 +465,15 @@ def display_course_card(course_data, user, db):
     course = course_data['course']
     relevance = course_data['relevance']
     already_intended = course_data['already_intended']
-    
+   
     with st.expander(f"📖 {course.name} {'⭐' * relevance if relevance > 0 else ''}"):
         col1, col2 = st.columns([3, 1])
-        
+       
         with col1:
             st.write(course.description)
             st.write(f"**Duração:** {course.duration_hours} horas")
             st.write(f"**Categoria:** {course.category}")
-            
+           
             # Show competency linkage
             if course.competency_ids:
                 st.write("**Competências desenvolvidas:**")
@@ -482,19 +482,19 @@ def display_course_card(course_data, user, db):
                     if comp:
                         relevance_badge = "🎯" if comp.level == user.target_level else "📚"
                         st.markdown(f"- {relevance_badge} {comp.name} ({comp.level})")
-        
+       
         with col2:
             # Course status
             if already_intended:
                 st.success("✅ Interesse Registrado")
             else:
                 st.metric("Relevância", f"{'⭐' * relevance}", f"{relevance} competências")
-        
+       
         # Course impact visualization
         if course.competency_ids and relevance > 0:
             st.write("**Impacto no seu desenvolvimento:**")
             impact_data = calculate_course_impact(course, user, db)
-            
+           
             if impact_data:
                 fig = go.Figure(data=[
                     go.Bar(
@@ -504,10 +504,9 @@ def display_course_card(course_data, user, db):
                     )
                 ])
                 fig.update_layout(height=200, showlegend=False)
-                # Linha 507 corrigida
                 # Linha 508 corrigida
                 st.plotly_chart(fig, use_container_width=True, key=f"plotly_chart_{course_data['course'].id}")
-        
+       
         # Registration form
         if not already_intended:
             # Create unique key for this form instance
@@ -515,7 +514,7 @@ def display_course_card(course_data, user, db):
             form_key = f"course_form_{course.id}_{st.session_state.form_counter}"
             with st.form(form_key):
                 col1, col2 = st.columns([2, 1])
-                
+               
                 with col1:
                     priority = st.selectbox(
                         "Prioridade",
@@ -528,7 +527,7 @@ def display_course_card(course_data, user, db):
                         placeholder="Por que você está interessado neste curso?",
                         key=f"notes_{course.id}_{st.session_state.form_counter}"
                     )
-                
+               
                 with col2:
                     st.write("**Quando deseja fazer?**")
                     timeline = st.selectbox(
@@ -536,7 +535,7 @@ def display_course_card(course_data, user, db):
                         ["Imediato", "Próximos 3 meses", "Próximos 6 meses", "Este ano"],
                         key=f"timeline_{course.id}_{st.session_state.form_counter}"
                     )
-                    
+                   
                     if st.form_submit_button("Registrar Interesse"):
                         db.save_course_intention(user.id, course.id, priority)
                         st.success("Interesse registrado com sucesso!")
